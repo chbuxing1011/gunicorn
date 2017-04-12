@@ -3,7 +3,7 @@
 
 #http://127.0.0.1:5000/
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 
 app = Flask(__name__)
 
@@ -23,8 +23,22 @@ def signin():
 		return render_template('signin-ok.html', username=username)
 	return render_template('form.html', message='Bad username or password', username=username)
 
+
+@app.route('/baidu')
+def baidu():
+	return redirect('https://www.baidu.com')
+	
+@app.route('/')
+def index():
+	return redirect(url_for('login'))
+	
+@app.errorhandler(404)
+def page_not_found(error):
+	return render_template('page_not_found.html'), 404
+	
+
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5000)
-#	app.run()
+#	app.run(host='0.0.0.0', port=5000)
+	app.run()
 	
 	
